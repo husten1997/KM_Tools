@@ -9,6 +9,9 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 
+import gen.generator.*;
+
+
 
 public class WorldGen {
 	
@@ -43,6 +46,8 @@ public class WorldGen {
 	Color sand = new Color(224, 163, 0);
 	Color gras = new Color(44, 152, 15);
 	Color rock = new Color(78, 78, 78);
+	
+	Generator generator;
 	
 	public WorldGen(){
 		WWC = 0.35;
@@ -109,6 +114,7 @@ public class WorldGen {
 		seed = (int)(Math.random()*Integer.MAX_VALUE);
 		hm = new float[s][s];
 		rand = new Random(seed);
+		generator = new RandomGenerator(rand, c, -1);
 		long Zvor = System.currentTimeMillis();
 		genHM2(seed, routh);
 		set();
@@ -123,6 +129,7 @@ public class WorldGen {
 		seed = Iseed;
 		hm = new float[s][s];
 		rand = new Random(seed);
+		generator = new RandomGenerator(rand, c, -1);
 		long Zvor = System.currentTimeMillis();
 		genHM2(seed, routh);
 		set();
@@ -190,7 +197,7 @@ public class WorldGen {
 	}
 	
 	public void genHM2( int seed, float r){
-		int size = (int) Math.sqrt(s-1);
+//		int size = (int) Math.sqrt(s-1);
 		int inter = Math.round(s/2);
 		square(inter+1, inter+1, inter, r);
 		smooth(smoothS);	
@@ -251,7 +258,7 @@ public class WorldGen {
 		if(xPos < s && xPos >= 0 && yPos < s && yPos >= 0){
 			if(hm[xPos][yPos] == 0.0){
 //					hm[xPos][yPos] = dsquare(xPos, yPos, inter)+ r * (c*rand.nextFloat()-1);
-					hm[xPos][yPos] = generator(xPos, yPos, inter, RAND_DQ, r) ;
+					hm[xPos][yPos] = generator.getValue(xPos, yPos, r, dsquare(xPos, yPos, inter));
 			}
 			
 
@@ -270,7 +277,7 @@ public class WorldGen {
 		if(inter >= 1 && xPos < s && xPos >= 0 && yPos < s && yPos >= 0){
 			if(hm[xPos][yPos] == 0.0){
 //				hm[xPos][yPos] = ddia(xPos, yPos, inter) + r * (c*rand.nextFloat()-1) ;
-				hm[xPos][yPos] = generator(xPos, yPos, inter, RAND_DD, r) ;
+				hm[xPos][yPos] = generator.getValue(xPos, yPos, r, ddia(xPos, yPos, inter));
 				Vektor M1 = middl(new Vektor((double)(xPos + inter),(double) (yPos)), new Vektor((double)(xPos), (double)(yPos + inter)));
 
 				square((int)M1.getX() + (inter/2), (int)M1.getY() + (inter/2), (int) Math.round(inter/2), r*fallof);
@@ -402,24 +409,5 @@ public class WorldGen {
 		}	
 
 	}
-	public float generator(int xPos, int yPos, int inter, String Typ, float r){
-		float h = 0;
-		switch (Typ) {
-		case RAND:
-			h = r * (c*rand.nextFloat()-1);
-			break;
-		case RAND_DD:
-			h = ddia(xPos, yPos, inter) + r * (c*rand.nextFloat()-1);
-			break;
-		case RAND_DQ:
-			h = dsquare(xPos, yPos, inter) + r * (c*rand.nextFloat()-1);
-			break;
-		case SIN:
-			h = (float) (Math.sin(xPos/5)*Math.sin(yPos/5))*5;
-			break;
-		
-		
-		}
-		return h;
-	}
+
 }
