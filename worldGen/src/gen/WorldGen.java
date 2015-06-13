@@ -36,16 +36,26 @@ public class WorldGen {
 	static int seed;
 	Random rand; 
 	
+	
+	/**
+	 * Warscheinlichkeiten!!
+	 */
 	double WWC;
 	double WSC;
 	double WGC;
 	double WRC;
 	double WMC;
 	
+	double WER = 0.07;
+	double WKR = 0.12;
+	
 	Color wasser = new Color(29, 60, 213);
 	Color sand = new Color(224, 163, 0);
 	Color gras = new Color(44, 152, 15);
 	Color rock = new Color(78, 78, 78);
+	Color eisen = new Color(100, 0, 0);
+	Color kohle = new Color(1, 1, 1);
+	Color schnee = new Color(255, 255, 255);
 	
 	Generator generator;
 	
@@ -240,7 +250,7 @@ public class WorldGen {
 
 		
 		try {
-			File output = new File("C:/output/klaus.png");
+			File output = new File("C:/output/HM.png");
 			
 			output.createNewFile();
 			ImageIO.write(HM, "png", output);
@@ -377,7 +387,7 @@ public class WorldGen {
 
 		
 		for(int i = 0; i < hm.length; i++){
-			
+			Random randomRes = new Random(rand.nextLong());
 			for(int j = 0; j < hm.length; j++){
 				float z = hm[i][j];
 				
@@ -392,6 +402,16 @@ public class WorldGen {
 				}
 				if(z > WG && z < WR){
 					CM.setRGB(i, s-1-j, rock.getRGB());
+					int x = randomRes.nextInt(100);
+					if(x < WER*100){
+						CM.setRGB(i,  s-1-j, eisen.getRGB());
+					}
+					if(x < WKR*100+WER*100 && x > WER*100){
+						CM.setRGB(i, s-1-j, kohle.getRGB());
+					}
+				}
+				if((z > WR)){
+					CM.setRGB(i, s-1-j, schnee.getRGB());
 				}
 				
 			}
@@ -409,5 +429,7 @@ public class WorldGen {
 		}	
 
 	}
+	
+	
 
 }

@@ -2,6 +2,7 @@ package ui;
 
 import gen.WorldGen;
 
+import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenuItem;
 
 public class UI extends JFrame {
 
@@ -34,7 +39,7 @@ public class UI extends JFrame {
 	static WorldGen gen;
 	PicturePanel panel;
 	
-	static final String Version = "a0.1";
+	static final String Version = "a0.2";
 
 	/**
 	 * Launch the application.
@@ -60,6 +65,24 @@ public class UI extends JFrame {
 	public UI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnSettings = new JMenu("Settings");
+		menuBar.add(mnSettings);
+		
+		JMenuItem mntmHi = new JMenuItem("HI");
+		mnSettings.add(mntmHi);
+		
+		JMenu mnOpen = new JMenu("Open");
+		menuBar.add(mnOpen);
+		
+		JMenuItem mntmColormap = new JMenuItem("ColorMap");
+		mnOpen.add(mntmColormap);
+		
+		JMenuItem mntmHeightmap = new JMenuItem("HeightMap");
+		mnOpen.add(mntmHeightmap);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -249,7 +272,34 @@ public class UI extends JFrame {
 			}
 		});
 		
+		mntmColormap.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					Desktop desktop = Desktop.getDesktop();
+					desktop.open(new File("C:\\output\\CM.png"));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		
+		mntmHeightmap.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Desktop desktop = Desktop.getDesktop();
+				try {
+					desktop.open(new File("C:\\output\\HM.png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		
 		
 		
