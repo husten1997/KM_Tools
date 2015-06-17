@@ -69,20 +69,70 @@ public class UI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnSettings = new JMenu("Settings");
-		menuBar.add(mnSettings);
-		
-		JMenuItem mntmHi = new JMenuItem("HI");
-		mnSettings.add(mntmHi);
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
 		
 		JMenu mnOpen = new JMenu("Open");
-		menuBar.add(mnOpen);
+		mnFile.add(mnOpen);
 		
 		JMenuItem mntmColormap = new JMenuItem("ColorMap");
 		mnOpen.add(mntmColormap);
 		
 		JMenuItem mntmHeightmap = new JMenuItem("HeightMap");
 		mnOpen.add(mntmHeightmap);
+		
+		mntmColormap.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					Desktop desktop = Desktop.getDesktop();
+					desktop.open(new File("C:\\output\\CM.png"));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		mntmHeightmap.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Desktop desktop = Desktop.getDesktop();
+				try {
+					desktop.open(new File("C:\\output\\HM.png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		JMenu mnExport = new JMenu("Export");
+		mnFile.add(mnExport);
+		
+		JMenuItem mntmxml = new JMenuItem("*.xml");
+		mnExport.add(mntmxml);
+		
+		JMenuItem mntmImport = new JMenuItem("Import");
+		mnFile.add(mntmImport);
+		
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mnFile.add(mntmExit);
+		
+		JMenu mnSettings = new JMenu("Settings");
+		menuBar.add(mnSettings);
+		
+		JMenuItem mntmWorldgen = new JMenuItem("WorldGen");
+		mnSettings.add(mntmWorldgen);
+		
+		JMenuItem mntmLevelValues = new JMenuItem("Level Values");
+		mnSettings.add(mntmLevelValues);
+		
+		JCheckBoxMenuItem chckbxmntmGenerateRes = new JCheckBoxMenuItem("Generate Res");
+		mnSettings.add(chckbxmntmGenerateRes);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -268,35 +318,6 @@ public class UI extends JFrame {
 				lblGrasLevel.setText("Gras Level: " + slider_2.getValue());
 				gen.setWGC((double)(slider_2.getValue())/100);
 				update();
-				
-			}
-		});
-		
-		mntmColormap.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try{
-					Desktop desktop = Desktop.getDesktop();
-					desktop.open(new File("C:\\output\\CM.png"));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-				
-			}
-		});
-		
-		mntmHeightmap.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Desktop desktop = Desktop.getDesktop();
-				try {
-					desktop.open(new File("C:\\output\\HM.png"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
 			}
 		});
